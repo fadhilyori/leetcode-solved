@@ -9,13 +9,16 @@ FROM
 JOIN 
   Department AS d ON e.DepartmentId = d.Id
 WHERE 
-  (SELECT 
-    COUNT(DISTINCT Salary)
-  FROM 
-    Employee AS e2
-  WHERE 
-    e2.Salary >= e.Salary
-    AND e2.DepartmentId = e.DepartmentId) <= 3
+  (
+    SELECT 
+      COUNT(DISTINCT Salary)
+    FROM 
+      Employee AS e2
+    WHERE 
+      e2.DepartmentId = e.DepartmentId
+      AND e2.Salary >= e.Salary
+  ) <= 3
 ORDER BY 
   Department, 
   Salary DESC;
+
