@@ -3,8 +3,8 @@ function* fibGenerator(): Generator<number, any, number> {
     let b: number = 1;
 
     while (true) {
-    yield a;
-    [a, b] = [b, a + b];
+        yield a;
+        [a, b] = [b, a + b];
     }
 };
 
