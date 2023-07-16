@@ -19,7 +19,7 @@ class Solution:
             
         # Convert remaining digits
         while i < N and s[i].isdigit():
-            digit = int(s[i])
+            digit = ord(s[i]) - ord('0')
 
             # Check for overflow
             if result > INT_MAX // 10 or (result == INT_MAX // 10 and digit > INT_MAX % 10):
