@@ -1,15 +1,20 @@
 class Solution:
     def reverse(self, x: int) -> int:
-        y = 0
-        is_below_zero = True if x < 0 else False
-        x = x if not is_below_zero else x * -1
+        INT_MIN = -2**31
+        INT_MAX = 2**31 - 1
         
-        while x > 0:
-            a = x % 10
-            yt = y * 10 + a
-            if -math.pow(2,31) > yt * -1 if is_below_zero else yt > math.pow(2,31) - 1:
-                return 0
-            y = yt
-            x = x // 10
+        is_below_zero = x < 0
+        x = abs(x)
+        reversed_num = 0
 
-        return y * -1 if is_below_zero else y
+        while x > 0:
+            reversed_num = reversed_num * 10 + x % 10
+            x //= 10
+            
+        if is_below_zero:
+            reversed_num *= -1
+            
+        if reversed_num < INT_MIN or reversed_num > INT_MAX:
+            return 0
+        
+        return reversed_num
