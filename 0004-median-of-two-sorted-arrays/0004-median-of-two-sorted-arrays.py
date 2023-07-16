@@ -1,39 +1,29 @@
 class Solution:
-    def merge(self, nums1: List[int], nums2: List[int]) -> List[int]:
-        m = len(nums1)
-        n = len(nums2)
-        nums3 = [None] * (m + n)
-        i, j, k = 0, 0, 0
-
-        while i < m and j < n:
-            if nums1[i] <= nums2[j]:
-                nums3[k] = nums1[i]
-                i += 1
-            else:
-                nums3[k] = nums2[j]
-                j += 1
-            k += 1
-
-        while i < m:
-            nums3[k] = nums1[i]
-            k += 1
-            i += 1
-
-        while j < n:
-            nums3[k] = nums2[j]
-            k += 1
-            j += 1
-
-        return nums3
-    
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
-        nums3 = self.merge(nums1, nums2)
-        n = len(nums3)
-        mid = n // 2
+        if len(nums1) > len(nums2):
+            nums1, nums2 = nums2, nums1
 
-        if n % 2 == 0:
-            median = (nums3[mid - 1] + nums3[mid]) / 2
-        else:
-            median = nums3[mid]
+        m, n = len(nums1), len(nums2)
+        left, right = 0, m
 
-        return median
+        while left <= right:
+            partition_x = (left + right) // 2
+            partition_y = (m + n + 1) // 2 - partition_x
+
+            max_left_x = float('-inf') if partition_x == 0 else nums1[partition_x - 1]
+            min_right_x = float('inf') if partition_x == m else nums1[partition_x]
+            max_left_y = float('-inf') if partition_y == 0 else nums2[partition_y - 1]
+            min_right_y = float('inf') if partition_y == n else nums2[partition_y]
+
+            if max_left_x <= min_right_y and max_left_y <= min_right_x:
+                if (m + n) % 2 == 0:
+                    median = (max(max_left_x, max_left_y) + min(min_right_x, min_right_y)) / 2.0
+                else:
+                    median = max(max_left_x, max_left_y)
+                return median
+            elif max_left_x > min_right_y:
+                right = partition_x - 1
+            else:
+                left = partition_x + 1
+
+        return 0
